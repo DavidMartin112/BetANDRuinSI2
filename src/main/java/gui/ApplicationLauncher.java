@@ -12,7 +12,11 @@ import businessLogic.BLFacade;
 import businessLogic.BLFacadeImplementation;
 import configuration.ConfigXML;
 import dataAccess.DataAccess;
-
+/**
+ * 
+ * @author David
+ *
+ */
 public class ApplicationLauncher { 
 	
 	
