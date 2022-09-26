@@ -26,7 +26,11 @@ import domain.Admin;
 import domain.Event;
 import domain.User;
 
-
+/**
+ * 
+ * @author David
+ *
+ */
 public class AdminGUI extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
