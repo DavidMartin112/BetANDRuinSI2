@@ -14,7 +14,7 @@ import configuration.ConfigXML;
 import dataAccess.DataAccess;
 /**
  * 
- * @author David
+ * @author David Martin
  *
  */
 public class ApplicationLauncher { 
