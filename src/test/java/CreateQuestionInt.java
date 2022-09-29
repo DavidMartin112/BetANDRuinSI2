@@ -26,7 +26,7 @@ public class CreateQuestionInt {
 	
 	@BeforeClass
 	public static void setUpClass() {
-		//sut= new BLFacadeImplementation();
+		sut= new BLFacadeImplementation();
 		
 		// you can parametrize the DataAccess used by BLFacadeImplementation
 		//DataAccess da= new DataAccess(ConfigXML.getInstance().getDataBaseOpenMode().equals("initialize"));
