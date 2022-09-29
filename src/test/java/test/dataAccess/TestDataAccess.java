@@ -11,6 +11,7 @@ import javax.persistence.Persistence;
 import configuration.ConfigXML;
 import domain.Event;
 import domain.Question;
+import domain.Team;
 
 public class TestDataAccess {
 	protected  EntityManager  db;
@@ -70,7 +71,7 @@ public class TestDataAccess {
 			Event ev=null;
 				db.getTransaction().begin();
 				try {
-				    ev=new Event(desc,d);
+				    ev=new Event(desc, d, new Team("Manolo"), new Team("Zaragoza"));
 				    ev.addQuestion(question, qty);
 					db.persist(ev);
 					db.getTransaction().commit();
