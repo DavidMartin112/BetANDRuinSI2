@@ -37,7 +37,6 @@ public class RankingLortuMockInt {
 	//sut.rankingLortu:  The database has no registered users
 	public void test1() {
 				//define paramaters
-				assertTrue(true);
 				//configure Mock
 				
 
