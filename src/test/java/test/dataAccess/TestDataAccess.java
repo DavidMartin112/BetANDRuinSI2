@@ -11,6 +11,7 @@ import javax.persistence.Persistence;
 import configuration.ConfigXML;
 import domain.Event;
 import domain.Question;
+import domain.Sport;
 import domain.Team;
 
 public class TestDataAccess {
@@ -73,6 +74,7 @@ public class TestDataAccess {
 				try {
 				    ev=new Event(desc, d, new Team("Manolo"), new Team("Zaragoza"));
 				    ev.addQuestion(question, qty);
+				    ev.setSport(new Sport("Tennis"));
 					db.persist(ev);
 					db.getTransaction().commit();
 				}
@@ -89,6 +91,24 @@ public class TestDataAccess {
 			} else 
 			return false;
 			
+		}
+		public Event addEventWithQuestionAndQuote(String desc, Date d, String question, float qty,double x) {
+			System.out.println(">> DataAccessTest: addEvent");
+			Event ev=null;
+				db.getTransaction().begin();
+				try {
+				    ev=new Event(desc, d, new Team("Manolo"), new Team("Zaragoza"));
+				    Question q=ev.addQuestion(question, qty);
+				    q.addQuote(x, "aa", q);
+				    
+				    ev.setSport(new Sport("Tennis"));
+					db.persist(ev);
+					db.getTransaction().commit();
+				}
+				catch (Exception e){
+					e.printStackTrace();
+				}
+				return ev;
 		}
 }
 
