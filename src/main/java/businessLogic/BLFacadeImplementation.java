@@ -37,15 +37,15 @@ import exceptions.QuoteAlreadyExist;
 @WebService(endpointInterface = "businessLogic.BLFacade")
 public class BLFacadeImplementation  implements BLFacade {
 	DataAccess dbManager;
-
+	final String init="initialize";
 	public BLFacadeImplementation()  {		
 		System.out.println("Creating BLFacadeImplementation instance");
 		ConfigXML c=ConfigXML.getInstance();
 		
-		if (c.getDataBaseOpenMode().equals("initialize")) {
+		if (c.getDataBaseOpenMode().equals(init)) {
 		    dbManager=new DataAccess(c.getDataBaseOpenMode().equals("initialize"));
 		    dbManager.initializeDB();
-		    } else
+		} else
 		     dbManager=new DataAccess();
 		dbManager.close();
 
@@ -57,7 +57,7 @@ public class BLFacadeImplementation  implements BLFacade {
 		System.out.println("Creating BLFacadeImplementation instance with DataAccess parameter");
 		ConfigXML c=ConfigXML.getInstance();
 		
-		if (c.getDataBaseOpenMode().equals("initialize")) {
+		if (c.getDataBaseOpenMode().equals(init)) {
 			da.open(true);
 			da.initializeDB();			
 			da.close();
@@ -165,9 +165,9 @@ public class BLFacadeImplementation  implements BLFacade {
     }
     @WebMethod	
     public boolean gertaerakSortu(String description,Date eventDate, String sport) throws EventFinished{
-    	if(new Date().compareTo(eventDate)>0)
-			throw new EventFinished("Gertaera honen data dagoeneko pasa da");
-    	
+    	if(new Date().compareTo(eventDate)>0) {
+    		throw new EventFinished("Gertaera honen data dagoeneko pasa da");
+    	}
     	dbManager.open(false);
     	boolean b = dbManager.gertaerakSortu(description, eventDate, sport);
     	dbManager.close();

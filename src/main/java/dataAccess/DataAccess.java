@@ -225,31 +225,35 @@ public class DataAccess  {
 			Registered reg2 = new Registered("andrea", "123", 1111);
 			Registered reg3 = new Registered("markel", "123", 1111);
 			Registered reg4 = new Registered("mikel", "123", 1111);
-									
+			
+			final String winnerQuestionES="¿Quién ganará el partido?";
+			final String winnerQuestionENG="Who will win the match?";	
+			final String winnerQuestionEUS="Zeinek irabaziko du partidua?";	
+			
 			if (Locale.getDefault().equals(new Locale("es"))) {
-				q1=ev1.addQuestion("¿Quién ganará el partido?",1);
+				q1=ev1.addQuestion(winnerQuestionES,1);
 				q2=ev1.addQuestion("¿Quién meterá el primer gol?",2);
-				q3=ev11.addQuestion("¿Quién ganará el partido?",1);
+				q3=ev11.addQuestion(winnerQuestionES,1);
 				q4=ev11.addQuestion("¿Cuántos goles se marcarán?",2);
-				q5=ev17.addQuestion("¿Quién ganará el partido?",1);
+				q5=ev17.addQuestion(winnerQuestionES,1);
 				q6=ev17.addQuestion("¿Habrá goles en la primera parte?",2);
 				
 			}
 			else if (Locale.getDefault().equals(new Locale("en"))) {
-				q1=ev1.addQuestion("Who will win the match?",1);
+				q1=ev1.addQuestion(winnerQuestionENG,1);
 				q2=ev1.addQuestion("Who will score first?",2);
-				q3=ev11.addQuestion("Who will win the match?",1);
+				q3=ev11.addQuestion(winnerQuestionENG,1);
 				q4=ev11.addQuestion("How many goals will be scored in the match?",2);
-				q5=ev17.addQuestion("Who will win the match?",1);
+				q5=ev17.addQuestion(winnerQuestionENG,1);
 				q6=ev17.addQuestion("Will there be goals in the first half?",2);
 				
 			}			
 			else {
-				q1=ev1.addQuestion("Zeinek irabaziko du partidua?",1);
+				q1=ev1.addQuestion(winnerQuestionEUS,1);
 				q2=ev1.addQuestion("Zeinek sartuko du lehenengo gola?",2);
-				q3=ev11.addQuestion("Zeinek irabaziko du partidua?",1);
+				q3=ev11.addQuestion(winnerQuestionEUS,1);
 				q4=ev11.addQuestion("Zenbat gol sartuko dira?",2);
-				q5=ev17.addQuestion("Zeinek irabaziko du partidua?",1);
+				q5=ev17.addQuestion(winnerQuestionEUS,1);
 				q6=ev17.addQuestion("Golak sartuko dira lehenengo zatian?",2);
 				
 				
