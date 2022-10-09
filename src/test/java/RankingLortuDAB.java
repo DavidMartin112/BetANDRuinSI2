@@ -72,11 +72,11 @@ public class RankingLortuDAB {
 		Registered us4 = new Registered("Pepito", "1234", 3333);
 		Registered us5 = new Registered("Andoni", "1234", 4444);
 		try {		
-			Double g1 = (double) 10;
-			Double g2 = (double) 13;
-			Double g3 = (double) 12;
-			Double g4 = (double) 11;
-			Double g5 = (double) 16;
+			Double g1 = (double) 1;
+			Double g2 = (double) 1;
+			Double g3 = (double) 1;
+			Double g4 = (double) 1;
+			Double g5 = (double) 1;
 			
 			List<Registered> expected = new ArrayList<Registered>();
 			
