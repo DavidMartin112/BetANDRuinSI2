@@ -98,13 +98,13 @@ public class ApustuaEginGUI extends JFrame{
 		textFieldDiruKop.setBounds(210, 313, 394, 37);
 		textFieldDiruKop.setColumns(10);
 		try {
-			jbInit(v, q);
+			jbInit(q);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void jbInit(Vector<domain.Event> v, Quote q) throws Exception {
+	private void jbInit(Quote q) throws Exception {
 
 		this.getContentPane().setLayout(null);
 		this.setSize(new Dimension(1250, 470));
@@ -125,7 +125,7 @@ public class ApustuaEginGUI extends JFrame{
 		jButtonClose.setBounds(new Rectangle(456, 360, 148, 51));
 		jButtonClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				jButtonClose_actionPerformed(e);
+				jButtonClose_actionPerformed();
 			}
 		});
 
@@ -185,11 +185,7 @@ public class ApustuaEginGUI extends JFrame{
 				for(domain.Quote quote : businessLogic.findQuote(q)) {
 					modelQuotes.addElement(quote); 
 				}
-				if(modelQuotes.getSize()==0) {
-					btnApustuaGehitu.setEnabled(false);
-				}else {
-					btnApustuaGehitu.setEnabled(true);
-				}
+					btnApustuaGehitu.setEnabled(modelQuotes.getSize()==0);
 			}
 		});
 		
@@ -347,13 +343,8 @@ public class ApustuaEginGUI extends JFrame{
 		this.jCalendar.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent propertychangeevent) {
 				lblError.setVisible(false);
-				if(modelQuotes.getSize()>0) {
-					
-					btnApustuaGehitu.setEnabled(true);
-				}else {
-					
-					btnApustuaGehitu.setEnabled(false);
-				}
+					btnApustuaGehitu.setEnabled(modelQuotes.getSize()>0);
+
 //				this.jCalendar.addPropertyChangeListener(new PropertyChangeListener() {
 //					public void propertyChange(PropertyChangeEvent propertychangeevent) {
 				if (propertychangeevent.getPropertyName().equals("locale")) {
@@ -475,7 +466,7 @@ public static void paintDaysWithEvents(JCalendar jCalendar,ArrayList<Date> dates
 	 	
 	}
 
-	private void jButtonClose_actionPerformed(ActionEvent e) {
+	private void jButtonClose_actionPerformed() {
 		this.setVisible(false);
 	}
 }
