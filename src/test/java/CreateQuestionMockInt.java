@@ -127,7 +127,7 @@ public class CreateQuestionMockInt {
 		   }
 	@Test
 	public void test7() {
-		try {
+		
 			//define paramaters
 			String queryText="proba galdera";
 			Float betMinimum=new Float(2);
@@ -142,25 +142,24 @@ public class CreateQuestionMockInt {
 			
 			//configure Mock
 			Mockito.doReturn(oneDate).when(mockedEvent).getEventDate();
-			Mockito.when(dataAccess.createQuestion(Mockito.any(Event.class),Mockito.any(String.class), Mockito.any(Integer.class))).thenThrow(QuestionAlreadyExist.class);
+			try {
+				Mockito.when(dataAccess.createQuestion(Mockito.any(Event.class),Mockito.any(String.class), Mockito.any(Integer.class))).thenThrow(QuestionAlreadyExist.class);
+			}catch(QuestionAlreadyExist e) {
+				fail();
+			}
 			
-
+			try {
 			//invoke System Under Test (sut) 
 			sut.createQuestion(mockedEvent, queryText, betMinimum);
 			
 			//if the program continues fail
 		    fail();
-		   } catch (QuestionAlreadyExist e) {
-			// TODO Auto-generated catch block
-			   
-			// if the program goes to this point OK
-			assertTrue(true);
-			} catch (EventFinished e) {
-				// if the program goes to this point fail
-			    fail();
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			}catch(QuestionAlreadyExist e){
+				assertTrue(true);
+			}catch(EventFinished e) {
+				fail();
 			}
+			
 		   }
 	
 	

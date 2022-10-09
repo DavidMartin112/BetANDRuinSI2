@@ -11,6 +11,8 @@ import javax.persistence.Persistence;
 import configuration.ConfigXML;
 import domain.Event;
 import domain.Question;
+import domain.Registered;
+import domain.Sport;
 import domain.Team;
 
 public class TestDataAccess {
@@ -73,6 +75,7 @@ public class TestDataAccess {
 				try {
 				    ev=new Event(desc, d, new Team("Manolo"), new Team("Zaragoza"));
 				    ev.addQuestion(question, qty);
+				    ev.setSport(new Sport("Tennis"));
 					db.persist(ev);
 					db.getTransaction().commit();
 				}
@@ -89,6 +92,63 @@ public class TestDataAccess {
 			} else 
 			return false;
 			
+		}
+		public Event addEventWithQuestionAndQuote(String desc, Date d, String question, float qty,double x) {
+			System.out.println(">> DataAccessTest: addEvent");
+			Event ev=null;
+				db.getTransaction().begin();
+				try {
+				    ev=new Event(desc, d, new Team("Manolo"), new Team("Zaragoza"));
+				    Question q=ev.addQuestion(question, qty);
+				    q.addQuote(x, "aa", q);
+				    
+				    ev.setSport(new Sport("Tennis"));
+					db.persist(ev);
+					db.getTransaction().commit();
+				}
+				catch (Exception e){
+					e.printStackTrace();
+				}
+				return ev;
+		}
+		public Event addEvent(String desc, Date d) {
+			System.out.println(">> DataAccessTest: addEvent");
+			Event ev=null;
+				db.getTransaction().begin();
+				try {
+				    ev=new Event(desc, d, new Team("Manolo"), new Team("Zaragoza"));			    
+				    ev.setSport(new Sport("Tennis"));
+					db.persist(ev);
+					db.getTransaction().commit();
+				}
+				catch (Exception e){
+					e.printStackTrace();
+				}
+				return ev;
+		}
+		
+		public void addUserWithGains(Registered user, Double gains) {
+			try {
+				System.out.println(">> DataAccessTest: addUserWithGains");
+				db.getTransaction().begin();
+				user.setIrabazitakoa(gains);
+				db.persist(user);
+				db.getTransaction().commit();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		public void removeRegisteredUsers(Registered usr) {
+			try {
+				System.out.println(">> DataAccessTest: removeRegisteredUsers");
+				Registered r = db.find(Registered.class, usr);
+				db.getTransaction().begin();
+				db.remove(r);
+				db.getTransaction().commit();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
 		}
 }
 

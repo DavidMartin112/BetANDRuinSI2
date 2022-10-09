@@ -1,35 +1,39 @@
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
 
-import businessLogic.BLFacade;
-import businessLogic.BLFacadeImplementation;
+import configuration.ConfigXML;
 import dataAccess.DataAccess;
 import domain.Event;
+import domain.Question;
 import domain.Registered;
+import domain.User;
+import exceptions.EventFinished;
+import exceptions.QuestionAlreadyExist;
+import test.businessLogic.TestFacadeImplementation;
+import test.dataAccess.TestDataAccess;
 
-@RunWith(MockitoJUnitRunner.class)
-public class RankingLortuMockInt {
-    DataAccess da=Mockito.mock(DataAccess.class);
+public class RankingLortuDAB {
 
-    @InjectMocks
-	 BLFacade sut=new BLFacadeImplementation(da);
-
+	 //sut:system under test
+	 static DataAccess sut=new DataAccess();
+	 
+	 //additional operations needed to execute the test 
+	 static TestDataAccess testDA=new TestDataAccess();
+	
 	@Test
 	//sut.rankingLortu: The list of registered users is empty. 
 	public void test1() {
 		try {		
-			Mockito.doReturn(new ArrayList<Registered>()).when(da).rankingLortu();
 			List<Registered> ema = sut.rankingLortu();
-			Mockito.verify(da,Mockito.times(1)).rankingLortu();
 			if(ema.isEmpty()) assertTrue(true);
 		 } catch (Exception e) {
 			fail("This shouldm't be reached");
@@ -40,16 +44,22 @@ public class RankingLortuMockInt {
 	public void test2() {
 		Registered david = new Registered("David", "1234", 5678);
 		Double g = (double) 15;
-		david.setIrabazitakoa(g);
-		ArrayList<Registered> expected = new ArrayList<Registered>(); 
-		expected.add(david);
 		try {		
-			Mockito.doReturn(expected).when(da).rankingLortu();
+			//configure the state of the system (create object in the dabatase)
+			testDA.open();
+			testDA.addUserWithGains(david, g);
+			testDA.close();
+			
+			//invoke System Under Test (sut)  
 			List<Registered> ema = sut.rankingLortu();
-			Mockito.verify(da,Mockito.times(1)).rankingLortu();
 			if(ema.size()==1 && ema.get(0).equals(david)) assertTrue(true);
 		} catch (Exception e) {
 			fail();
+		} finally {
+			//Remove the created objects in the database
+			testDA.open();
+			testDA.removeRegisteredUsers(david);
+			testDA.close();
 		}
 	}
 	
@@ -68,33 +78,42 @@ public class RankingLortuMockInt {
 			Double g4 = (double) 11;
 			Double g5 = (double) 16;
 			
-			us1.setIrabazitakoa(g1);
-			us2.setIrabazitakoa(g2);
-			us3.setIrabazitakoa(g3);
-			us4.setIrabazitakoa(g4);
-			us5.setIrabazitakoa(g5);
-			
 			List<Registered> expected = new ArrayList<Registered>();
 			
-			expected.add(us2);
-			expected.add(us3);
-			expected.add(us4);
-			expected.add(us1);			
-			sut.rankingLortu();
-			
-			expected.clear();
 			expected.add(us5);
 			expected.add(us2);
 			expected.add(us3);
 			expected.add(us4);
-			expected.add(us1);	
-			Mockito.doReturn(expected).when(da).rankingLortu();
+			expected.add(us1);
+			
+			testDA.open();
+			testDA.addUserWithGains(us1, g1);
+			testDA.addUserWithGains(us2, g2);
+			testDA.addUserWithGains(us3, g3);
+			testDA.addUserWithGains(us4, g4);
+			testDA.close();
+
+			//invoke System Under Test (sut)  
+			sut.rankingLortu();
+			
+			testDA.open();
+			testDA.addUserWithGains(us5, g5);
+			testDA.close();
 			
 			List<Registered> ema = sut.rankingLortu();
-			Mockito.verify(da,Mockito.times(2)).rankingLortu();
+			
 			if(ema.equals(expected)) assertTrue(true);
 		} catch (Exception e) {
 			fail();
+		} finally {
+			//Remove the created objects in the database
+			testDA.open();
+			testDA.removeRegisteredUsers(us1);
+			testDA.removeRegisteredUsers(us2);
+			testDA.removeRegisteredUsers(us3);
+			testDA.removeRegisteredUsers(us4);
+			testDA.removeRegisteredUsers(us5);
+			testDA.close();
 		}
 	}
 	
@@ -109,27 +128,34 @@ public class RankingLortuMockInt {
 			Double g2 = (double) 13;
 			Double g3 = (double) 16;
 			
-			us1.setIrabazitakoa(g1);
-			us2.setIrabazitakoa(g2);
-			us3.setIrabazitakoa(g3);
-			
 			List<Registered> expected = new ArrayList<Registered>();
-			expected.add(us1);
-			expected.add(us2);
-		
-			Mockito.doReturn(expected).when(da).rankingLortu();
-			sut.rankingLortu();
-			Mockito.doReturn(expected).when(da).rankingLortu();
-			expected.clear();
 			expected.add(us1);
 			expected.add(us3);
 			expected.add(us2);
 			
+			testDA.open();
+			testDA.addUserWithGains(us1, g1);
+			testDA.addUserWithGains(us2, g2);
+			testDA.close();
+
+			//invoke System Under Test (sut)  
+			sut.rankingLortu();
+			
+			testDA.open();
+			testDA.addUserWithGains(us3, g3);
+			testDA.close();
+			
 			List<Registered> ema = sut.rankingLortu();
-			Mockito.verify(da,Mockito.times(2)).rankingLortu();
 			if(ema.equals(expected)) assertTrue(true);
 		} catch (Exception e) {
 			fail();
+		} finally {
+			//Remove the created objects in the database
+			testDA.open();
+			testDA.removeRegisteredUsers(us1);
+			testDA.removeRegisteredUsers(us2);
+			testDA.removeRegisteredUsers(us3);
+			testDA.close();
 		}
 	}
 }
