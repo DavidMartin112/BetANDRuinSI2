@@ -19,63 +19,39 @@ public class GertaerakKopiatuDAW {
 	 static TestDataAccess testDA=new TestDataAccess();
 	 
 	 private Event ev;
-
-
-	
-	 //Event galdera eta kuotarekin existitzen da databasean eta data berri batera kopiatuko dugu 
-	@Test
-	public void test1() {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		Date oneDate=null;
-		Date twoDate=new Date();
-		try {
-			oneDate = sdf.parse("05/10/2022");
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
-		try {
-			
-			testDA.open();
-			ev = testDA.addEventWithQuestionAndQuote("Manolo-Fernanda",oneDate,"query2", 3,678);
-			boolean emaitza= sut.gertaerakKopiatu(ev, twoDate);
-			assertTrue(emaitza);
-		}catch(Exception e) {
-			fail();
-		}finally {
-			testDA.removeEvent(ev);
-	        testDA.close();
-		}
-	}
-	 //Event galderakinn existitzen da databasean eta data berri batera kopiatuko dugu 
-		@Test
-		public void test2() {
-			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+	 //!query.getResultList().isEmpty()	
+	 @Test
+		public void test1() {
+		 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			Date oneDate=null;
-			Date twoDate=new Date();
 			try {
 				oneDate = sdf.parse("05/10/2022");
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}	
+			sut.open(true);
 			try {
 				
 				testDA.open();
-				ev = testDA.addEventWithQuestion("Manolo-Fernanda",oneDate,"query2", 3);
-				boolean emaitza= sut.gertaerakKopiatu(ev, twoDate);
-				assertTrue(emaitza);
+				ev = testDA.addEventWithQuestionAndQuote("Manolo-Manolete",oneDate,"query2", 3,12);
+				testDA.close();	
+			
+				boolean emaitza= sut.gertaerakKopiatu(ev, oneDate);
+				assertTrue(!emaitza);
 			}catch(Exception e) {
 				fail();
 			}finally {
-				testDA.removeEvent(ev);
+				testDA.open();
+		        boolean b=testDA.removeEvent(ev);
 		        testDA.close();
+		        sut.close();
 			}
-		}
-		 //Event existitzen da databasean eta data berri batera kopiatuko dugu 
-		@Test
-		public void test3() {
-			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+	 }
+	 //query.getResultList().isEmpty() && gertaera.getQuestions().isEmpty()
+	 @Test
+		public void test2() {
+		 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			Date oneDate=null;
 			Date twoDate=new Date();
 			try {
@@ -85,7 +61,7 @@ public class GertaerakKopiatuDAW {
 				e.printStackTrace();
 			}	
 			try {
-				
+				sut.open(true);
 				testDA.open();
 				ev = testDA.addEvent("Manolo-Fernanda",oneDate);
 				boolean emaitza= sut.gertaerakKopiatu(ev, twoDate);
@@ -95,7 +71,60 @@ public class GertaerakKopiatuDAW {
 			}finally {
 				testDA.removeEvent(ev);
 		        testDA.close();
+		        sut.close();
 			}
-		}
+	 }
+	//query.getResultList().isEmpty() && !gertaera.getQuestions().isEmpty && galdera.getQuotes().isEmpty()
+	 @Test
+	 public void test3() {
+		 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			Date oneDate=null;
+			Date twoDate=new Date();
+			try {
+				oneDate = sdf.parse("05/10/2022");
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
+			try {
+				sut.open(true);
+				testDA.open();
+				ev = testDA.addEventWithQuestion("Manolo-Fernanda",oneDate,"query2", 3);
+				boolean emaitza= sut.gertaerakKopiatu(ev, twoDate);
+				assertTrue(emaitza);
+			}catch(Exception e) {
+				fail();
+			}finally {
+				testDA.removeEvent(ev);
+		        testDA.close();
+		        sut.close();
+			}
+	 }
+	 //query.getResultList().isEmpty() && !gertaera.getQuestions().isEmpty() && !galdera.getQuotes().isEmpty()
+	 @Test
+	 public void test4() {
+		 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			Date oneDate=null;
+			Date twoDate=new Date();
+			try {
+				oneDate = sdf.parse("05/10/2022");
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
+			try {
+				sut.open(true);
+				testDA.open();
+				ev = testDA.addEventWithQuestionAndQuote("Manolo-Fernanda",oneDate,"query2", 3,678);
+				boolean emaitza= sut.gertaerakKopiatu(ev, twoDate);
+				assertTrue(emaitza);
+			}catch(Exception e) {
+				fail();
+			}finally {
+				testDA.removeEvent(ev);
+		        testDA.close();
+		        sut.close();
+			}
+	 }
 
 }

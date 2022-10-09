@@ -25,7 +25,81 @@ public class GertaerakKopiatuDAB {
 
 	private Event ev;
 	
-		
+	//Event galdera eta kuotarekin existitzen da databasean eta data berri batera kopiatuko dugu 
+		@Test
+		public void test1() {
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			Date oneDate=null;
+			Date twoDate=new Date();
+			try {
+				oneDate = sdf.parse("05/10/2022");
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
+			try {
+				
+				testDA.open();
+				ev = testDA.addEventWithQuestionAndQuote("Manolo-Fernanda",oneDate,"query2", 3,678);
+				boolean emaitza= sut.gertaerakKopiatu(ev, twoDate);
+				assertTrue(emaitza);
+			}catch(Exception e) {
+				fail();
+			}finally {
+				testDA.removeEvent(ev);
+		        testDA.close();
+			}
+		}
+		 //Event galderakinn existitzen da databasean eta data berri batera kopiatuko dugu 
+			@Test
+			public void test2() {
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+				Date oneDate=null;
+				Date twoDate=new Date();
+				try {
+					oneDate = sdf.parse("05/10/2022");
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}	
+				try {
+					
+					testDA.open();
+					ev = testDA.addEventWithQuestion("Manolo-Fernanda",oneDate,"query2", 3);
+					boolean emaitza= sut.gertaerakKopiatu(ev, twoDate);
+					assertTrue(emaitza);
+				}catch(Exception e) {
+					fail();
+				}finally {
+					testDA.removeEvent(ev);
+			        testDA.close();
+				}
+			}
+			 //Event existitzen da databasean eta data berri batera kopiatuko dugu 
+			@Test
+			public void test3() {
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+				Date oneDate=null;
+				Date twoDate=new Date();
+				try {
+					oneDate = sdf.parse("05/10/2022");
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}	
+				try {
+					
+					testDA.open();
+					ev = testDA.addEvent("Manolo-Fernanda",oneDate);
+					boolean emaitza= sut.gertaerakKopiatu(ev, twoDate);
+					assertTrue(emaitza);
+				}catch(Exception e) {
+					fail();
+				}finally {
+					testDA.removeEvent(ev);
+			        testDA.close();
+				}
+			}
 	//Eventua datubasean dago baina data berdinerako kopiatzen saiatzean ez du kopiatuko
 	@Test
 	public void test4() {
