@@ -16,7 +16,7 @@ import org.junit.AfterClass;
 import dataAccess.DataAccess;
 import domain.Sport;
 import test.dataAccess.TestDataAccess;
-public class gertateraSortuDAWTest {
+public class gertaeraSortuDAWTest {
 	//sut:system under test
  	static DataAccess sut=new DataAccess();
  
