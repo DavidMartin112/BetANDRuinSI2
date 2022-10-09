@@ -11,6 +11,7 @@ import javax.persistence.Persistence;
 import configuration.ConfigXML;
 import domain.Event;
 import domain.Question;
+import domain.Registered;
 import domain.Sport;
 import domain.Team;
 
@@ -124,6 +125,30 @@ public class TestDataAccess {
 					e.printStackTrace();
 				}
 				return ev;
+		}
+		
+		public void addUserWithGains(Registered user, Double gains) {
+			try {
+				System.out.println(">> DataAccessTest: addUserWithGains");
+				db.getTransaction().begin();
+				user.setIrabazitakoa(gains);
+				db.persist(user);
+				db.getTransaction().commit();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		public void removeRegisteredUsers(Registered usr) {
+			try {
+				System.out.println(">> DataAccessTest: removeRegisteredUsers");
+				Registered r = db.find(Registered.class, usr);
+				db.getTransaction().begin();
+				db.remove(r);
+				db.getTransaction().commit();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
 		}
 }
 
