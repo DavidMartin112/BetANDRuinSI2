@@ -25,67 +25,19 @@ public class GertaerakKopiatuDAB {
 
 	private Event ev;
 	
-	@Before
-	public void setUp() throws Exception {
-	}
-	
-	//En teoria event bat data berri batera mugitzean 
+		
+	//Eventua datubasean dago baina data berdinerako kopiatzen saiatzean ez du kopiatuko
 	@Test
-	public void test() {
+	public void test4() {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Date oneDate=null;
-		Date twoDate=null;
 		try {
 			oneDate = sdf.parse("05/10/2022");
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
-		try {
-			twoDate = sdf.parse("23/10/2022");
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
-		
-		try {
-			
-			testDA.open();
-			ev = testDA.addEventWithQuestionAndQuote("Manolo-Juanita",oneDate,"query2", 3,678);
-			testDA.close();	
-		
-			boolean emaitza= sut.gertaerakKopiatu(ev, twoDate);
-			assertTrue(emaitza);
-		}catch(Exception e) {
-			fail();
-		}finally {
-	        sut.gertaeraEzabatu(ev);
-		}
-		
-		
-		
-		
-		
-   }
-	//Data berdinerako
-	@Test
-	public void test2() {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		Date oneDate=null;
-		Date twoDate=null;
-		try {
-			oneDate = sdf.parse("05/10/2022");
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
-		try {
-			twoDate = sdf.parse("23/10/2022");
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
-		
+		sut.open(true);
 		try {
 			
 			testDA.open();
@@ -100,6 +52,35 @@ public class GertaerakKopiatuDAB {
 			testDA.open();
 	        boolean b=testDA.removeEvent(ev);
 	        testDA.close();
+	        sut.close();
+		}
+		
+		
+		
+		
+		
+   }
+	//Event-a ez da existitzen databasean, ez da ezer kopiatuko
+	@Test
+	public void test5() {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		ev= null;
+		Date oneDate=null;
+		try {
+			oneDate = sdf.parse("05/10/2022");
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		sut.open(true);
+		
+		try {
+			sut.gertaerakKopiatu(ev, oneDate);
+			fail();
+		}catch(Exception e) {
+			assertTrue(true);
+		}finally {
+			sut.close();			
 		}
 		
 		

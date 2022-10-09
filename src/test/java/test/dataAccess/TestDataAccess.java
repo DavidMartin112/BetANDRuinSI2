@@ -110,5 +110,20 @@ public class TestDataAccess {
 				}
 				return ev;
 		}
+		public Event addEvent(String desc, Date d) {
+			System.out.println(">> DataAccessTest: addEvent");
+			Event ev=null;
+				db.getTransaction().begin();
+				try {
+				    ev=new Event(desc, d, new Team("Manolo"), new Team("Zaragoza"));			    
+				    ev.setSport(new Sport("Tennis"));
+					db.persist(ev);
+					db.getTransaction().commit();
+				}
+				catch (Exception e){
+					e.printStackTrace();
+				}
+				return ev;
+		}
 }
 

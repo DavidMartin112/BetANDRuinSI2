@@ -35,5 +35,18 @@ public class TestFacadeImplementation {
 			return o;
 
 		}
+		public Event addEventWithQuestionAndQuote(String desc, Date d, String q, float qty,double x) {
+			dbManagerTest.open();
+			Event o=dbManagerTest.addEventWithQuestionAndQuote(desc,d,q, qty,x);
+			dbManagerTest.close();
+			return o;
+
+		}
+		public Event addEvent(String desc, Date d) {
+			dbManagerTest.open();
+			Event o=dbManagerTest.addEvent(desc,d);
+			dbManagerTest.close();
+			return o;
+		}
 
 }
