@@ -13,110 +13,102 @@ import org.junit.runner.RunWith;
 
 	import org.mockito.runners.MockitoJUnitRunner;
 
+import businessLogic.BLFacade;
+import businessLogic.BLFacadeImplementation;
 import configuration.UtilDate;
 import dataAccess.DataAccess;
+import exceptions.EventFinished;
 
 	@SuppressWarnings("deprecation")
 	@RunWith(MockitoJUnitRunner.class)
 public class gertaeraSortuMockInt {
 	 	//sut:system under test
-	 	static DataAccess sut=new DataAccess();
-	 
-		@Before
-		public void before() {
-			sut.open(true);//Initializes empty db
-		}
-		@After
-		public void after() {
-			sut.close();
-		}
+		DataAccess da=Mockito.mock(DataAccess.class);
 
-		@Test
+	    @InjectMocks
+		 BLFacade sut=new BLFacadeImplementation(da);
+	    
+	    @Test
 		//The sport is not in the database
 		public void test1() {
 			//define paramaters
 			String sport="F1";
-			Date date= UtilDate.newDate(2022,10,9);
+			Date date= UtilDate.newDate(2012,10,9);
+			String description= "Japan GP";
+			
+			//configure the state of the system (create object in the dabatase)
+			
+			//invoke System Under Test (sut) 
+			try {
+				sut.gertaerakSortu(description, date, sport);
+				fail();
+			} catch(EventFinished e) {
+				assertTrue(true);
+			} catch(Exception e) {
+				fail();
+			}
+			//verify the result
+			Mockito.verify(da,Mockito.times(0)).gertaerakSortu(Mockito.anyString(), Mockito.any(), Mockito.any());
+			
+		}
+	    
+		@Test
+		//The sport is not in the database
+		public void test2() {
+			//define paramaters
+			String sport="F1";
+			Date date= UtilDate.newDate(2023,10,9);
 			String description= "Japan GP";
 			
 			boolean result=true;//False expected
-			
 			//configure the state of the system (create object in the dabatase)
-			sut.gertaerakSortu("Valencia-Madrid", new Date(), "Futbol");
-			
+			Mockito.when(da.gertaerakSortu(Mockito.anyString(), Mockito.any(), Mockito.any())).thenReturn(false);
 			//invoke System Under Test (sut) 
 			try {
 				result=sut.gertaerakSortu(description, date, sport);
-				
-			} catch(Exception e) {
-				e.printStackTrace();
-				fail();
-			}
-			//verify the results
-			assertTrue(!result);
-			
-		}
-		@Test
-		public void test2() {
-			//define paramaters
-			String sport="Futbol";
-			Date date= UtilDate.newDate(2022,10,9);
-			String description= "Valencia-Madrid";
-			
-			boolean result=true;//False expected
-			
-			//configure the state of the system (create object in the dabatase)
-			sut.gertaerakSortu(description, date, sport);
-			
-			//invoke System Under Test (sut) 
-			try {
-				
-				result=sut.gertaerakSortu(description, date, sport);
-				
 			} catch(Exception e) {
 				fail();
 			}
-			//verify the results
+			//verify the result
 			assertTrue(!result);
-			
+			Mockito.verify(da).gertaerakSortu(Mockito.anyString(), Mockito.any(), Mockito.any());
 		}
 		@Test
 		public void test3() {
 			//define paramaters
 			String sport="Futbol";
-			Date date= UtilDate.newDate(2022,10,9);
+			Date date= UtilDate.newDate(2023,10,9);
 			String description= "Valencia-Madrid";
-			Date dateBefore=UtilDate.newDate(2020,1,9);
 			
-			boolean result=false;//True expected
+			boolean result=true;//False expected
 			
 			//configure the state of the system (create object in the dabatase)
-			sut.gertaerakSortu(description, date, sport);
-			
+				Mockito.when(da.gertaerakSortu(Mockito.anyString(), Mockito.any(), Mockito.any())).thenReturn(false);
 			//invoke System Under Test (sut) 
 			try {
 				
-				result=sut.gertaerakSortu(description, dateBefore, sport);
+				result=sut.gertaerakSortu(description, date, sport);
 				
 			} catch(Exception e) {
 				fail();
 			}
 			//verify the results
-			assertTrue(result);
+			assertTrue(!result);
+			Mockito.verify(da).gertaerakSortu(Mockito.anyString(), Mockito.any(), Mockito.any());
 			
 		}
 		@Test
 		public void test4() {
 			//define paramaters
 			String sport="Futbol";
-			Date date= UtilDate.newDate(2022,10,9);
-			String description="Valencia-Madrid"; 
-			
+			Date date= UtilDate.newDate(2023,10,9);
+			String description= "Valencia-Madrid";
+
 			
 			boolean result=false;//True expected
 			
 			//configure the state of the system (create object in the dabatase)
-			sut.gertaerakSortu("Ponferradina-Elche", date, sport);
+			Mockito.when(da.gertaerakSortu(Mockito.anyString(), Mockito.any(), Mockito.any())).thenReturn(true);
 			
 			//invoke System Under Test (sut) 
 			try {
@@ -128,6 +120,33 @@ public class gertaeraSortuMockInt {
 			}
 			//verify the results
 			assertTrue(result);
+			Mockito.verify(da).gertaerakSortu(Mockito.anyString(), Mockito.any(), Mockito.any());
+			
+		}
+		@Test
+		public void test5() {
+			//define paramaters
+			String sport="Futbol";
+			Date date= UtilDate.newDate(2023,10,9);
+			String description="Valencia-Madrid"; 
+			
+			
+			boolean result=false;//True expected
+			
+			//configure the state of the system (create object in the dabatase)
+			Mockito.when(da.gertaerakSortu(Mockito.anyString(), Mockito.any(), Mockito.any())).thenReturn(true);
+			
+			//invoke System Under Test (sut) 
+			try {
+				
+				result=sut.gertaerakSortu(description, date, sport);
+				
+			} catch(Exception e) {
+				fail();
+			}
+			//verify the results
+			assertTrue(result);
+			Mockito.verify(da).gertaerakSortu(Mockito.anyString(), Mockito.any(), Mockito.any());
 			}
 	
 }
