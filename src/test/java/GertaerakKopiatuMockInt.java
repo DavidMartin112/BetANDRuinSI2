@@ -63,7 +63,7 @@ public class GertaerakKopiatuMockInt {
 		ArgumentCaptor<Date> dateCaptor = ArgumentCaptor.forClass(Date.class);
 		
 		Mockito.verify(dataAccess,Mockito.times(1)).gertaerakKopiatu(Mockito.any(Event.class),Mockito.any(Date.class));
-		//assertEquals(eventCaptor.getValue(),mockedEvent);
+		assertEquals(eventCaptor.getValue(),mockedEvent);
 		assertEquals(dateCaptor.getValue(),twoDate);
 		assertTrue(emaitza);
 		}catch(Exception e) {
@@ -73,54 +73,142 @@ public class GertaerakKopiatuMockInt {
 	@Test
 	 //Event galderakinn existitzen da databasean eta data berri batera kopiatuko dugu 
 	public void test2() {
-				//define paramaters
-				//configure Mock
-				
+		//define paramaters
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		Date oneDate=null;
+		Date twoDate=new Date();
+		try {
+			oneDate = sdf.parse("05/10/2022");
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		try {
+		//configure Mock
+		Mockito.doReturn(oneDate).when(mockedEvent).getEventDate();
+		Mockito.doReturn(mockedEvent).when(mockedQuestion).getEvent();
+		Mockito.doReturn(true).when(dataAccess).gertaerakKopiatu(Mockito.any(Event.class), Mockito.any(Date.class));
+		//Mockito.doReturn(false).when(dataAccess).gertaerakKopiatu(Mockito.any(Event.class), oneDate);
+		Mockito.doReturn(new Vector<Question>()).when(mockedEvent).getQuestions();
 
-				//invoke System Under Test (sut) 
+		//invoke System Under Test (sut) 
+		boolean emaitza= sut.gertaerakKopiatu(mockedEvent, twoDate);
+						
+		//verify the results
+		ArgumentCaptor<Event> eventCaptor = ArgumentCaptor.forClass(Event.class);
+		ArgumentCaptor<Date> dateCaptor = ArgumentCaptor.forClass(Date.class);
 				
-				//verify the results
-				//Mockito.verify(dataAccess,Mockito.times(1)).createQuestion(Mockito.any(Event.class),Mockito.any(String.class), Mockito.any(Integer.class));
-				
+		Mockito.verify(dataAccess,Mockito.times(1)).gertaerakKopiatu(Mockito.any(Event.class),Mockito.any(Date.class));
+		assertEquals(eventCaptor.getValue(),mockedEvent);
+		assertEquals(dateCaptor.getValue(),twoDate);
+		assertTrue(emaitza);
+		}catch(Exception e) {
+			fail();
+		}
 	}
 	@Test
 	 //Event existitzen da databasean eta data berri batera kopiatuko dugu 
 	public void test3() {
-				//define paramaters
+		//define paramaters
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			Date oneDate=null;
+			Date twoDate=new Date();
+			try {
+					oneDate = sdf.parse("05/10/2022");
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}	
+				try {
 				//configure Mock
-				
+				Mockito.doReturn(oneDate).when(mockedEvent).getEventDate();
+				Mockito.doReturn(true).when(dataAccess).gertaerakKopiatu(Mockito.any(Event.class), Mockito.any(Date.class));
+				//Mockito.doReturn(false).when(dataAccess).gertaerakKopiatu(Mockito.any(Event.class), oneDate);
 
 				//invoke System Under Test (sut) 
-				
+				boolean emaitza= sut.gertaerakKopiatu(mockedEvent, twoDate);
+								
 				//verify the results
-				//Mockito.verify(dataAccess,Mockito.times(1)).createQuestion(Mockito.any(Event.class),Mockito.any(String.class), Mockito.any(Integer.class));
-				
+				ArgumentCaptor<Event> eventCaptor = ArgumentCaptor.forClass(Event.class);
+				ArgumentCaptor<Date> dateCaptor = ArgumentCaptor.forClass(Date.class);
+						
+				Mockito.verify(dataAccess,Mockito.times(1)).gertaerakKopiatu(Mockito.any(Event.class),Mockito.any(Date.class));
+				assertEquals(eventCaptor.getValue(),mockedEvent);
+				assertEquals(dateCaptor.getValue(),twoDate);
+				assertTrue(emaitza);
+				}catch(Exception e) {
+					fail();
+				}
+		
 	}
 	@Test
 	//Eventua datubasean dago baina data berdinerako kopiatzen saiatzean ez du kopiatuko
 	public void test4() {
-				//define paramaters
+		//define paramaters
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+				Date oneDate=null;
+				Date twoDate=new Date();
+				try {
+					oneDate = sdf.parse("05/10/2022");
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}	
+				try {
 				//configure Mock
-				
+				Mockito.doReturn(oneDate).when(mockedEvent).getEventDate();
+				Mockito.doReturn(mockedEvent).when(mockedQuestion).getEvent();
+				//Mockito.doReturn(true).when(dataAccess).gertaerakKopiatu(Mockito.any(Event.class), Mockito.any(Date.class));
+				Mockito.doReturn(false).when(dataAccess).gertaerakKopiatu(Mockito.any(Event.class), oneDate);
+				Mockito.doReturn(new Vector<Question>()).when(mockedEvent).getQuestions();
 
 				//invoke System Under Test (sut) 
-				
+				boolean emaitza= sut.gertaerakKopiatu(mockedEvent, oneDate);
+								
 				//verify the results
-				//Mockito.verify(dataAccess,Mockito.times(1)).createQuestion(Mockito.any(Event.class),Mockito.any(String.class), Mockito.any(Integer.class));
-				
+				ArgumentCaptor<Event> eventCaptor = ArgumentCaptor.forClass(Event.class);
+				ArgumentCaptor<Date> dateCaptor = ArgumentCaptor.forClass(Date.class);
+						
+				Mockito.verify(dataAccess,Mockito.times(1)).gertaerakKopiatu(Mockito.any(Event.class),Mockito.any(Date.class));
+				assertEquals(eventCaptor.getValue(),mockedEvent);
+				assertEquals(dateCaptor.getValue(),oneDate);
+				assertTrue(!emaitza);
+				}catch(Exception e) {
+					fail();
+				}
 	}
 	@Test
 	//Event-a ez da existitzen databasean, ez da ezer kopiatuko
 	public void test5() {
-				//define paramaters
+		//define paramaters
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+				Date oneDate=null;
+				Date twoDate=new Date();
+				try {
+					oneDate = sdf.parse("05/10/2022");
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}	
+				try {
 				//configure Mock
-				
-
+				Mockito.doReturn(oneDate).when(mockedEvent).getEventDate();
+				Mockito.doReturn(false).when(dataAccess).gertaerakKopiatu(Mockito.any(Event.class), Mockito.any(Date.class));
+			
 				//invoke System Under Test (sut) 
-				
+				boolean emaitza= sut.gertaerakKopiatu(mockedEvent, twoDate);
+								
 				//verify the results
-				//Mockito.verify(dataAccess,Mockito.times(1)).createQuestion(Mockito.any(Event.class),Mockito.any(String.class), Mockito.any(Integer.class));
-				
+				ArgumentCaptor<Event> eventCaptor = ArgumentCaptor.forClass(Event.class);
+				ArgumentCaptor<Date> dateCaptor = ArgumentCaptor.forClass(Date.class);
+						
+				Mockito.verify(dataAccess,Mockito.times(1)).gertaerakKopiatu(Mockito.any(Event.class),Mockito.any(Date.class));
+				assertEquals(eventCaptor.getValue(),mockedEvent);
+				assertEquals(dateCaptor.getValue(),twoDate);
+				assertTrue(!emaitza);
+				}catch(Exception e) {
+					fail();
+				}
 	}
 	
 
