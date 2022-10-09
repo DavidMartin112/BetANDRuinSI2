@@ -56,6 +56,7 @@ public class gertaeraSortuDABTest {
 			
 		}
 		@Test
+		//Sport and description with the same date both in database
 		public void test2() {
 			//define paramaters
 			String sport="Futbol";
@@ -80,6 +81,7 @@ public class gertaeraSortuDABTest {
 			
 		}
 		@Test
+		//Sport in the database and description too but not with the same date
 		public void test3() {
 			//define paramaters
 			String sport="Futbol";
@@ -105,6 +107,7 @@ public class gertaeraSortuDABTest {
 			
 		}
 		@Test
+		//Sport in the database but not the description
 		public void test4() {
 			//define paramaters
 			String sport="Futbol";
