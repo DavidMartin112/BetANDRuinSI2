@@ -37,13 +37,13 @@ import exceptions.QuoteAlreadyExist;
 @WebService(endpointInterface = "businessLogic.BLFacade")
 public class BLFacadeImplementation  implements BLFacade {
 	DataAccess dbManager;
-	final static String init="initialize";
+	final static String Init="initialize";
 	public BLFacadeImplementation()  {		
 		System.out.println("Creating BLFacadeImplementation instance");
 		ConfigXML c=ConfigXML.getInstance();
 		
-		if (c.getDataBaseOpenMode().equals(init)) {
-		    dbManager=new DataAccess(c.getDataBaseOpenMode().equals("initialize"));
+		if (c.getDataBaseOpenMode().equals(Init)) {
+		    dbManager=new DataAccess(c.getDataBaseOpenMode().equals(Init));
 		    dbManager.initializeDB();
 		} else
 		     dbManager=new DataAccess();
@@ -57,7 +57,7 @@ public class BLFacadeImplementation  implements BLFacade {
 		System.out.println("Creating BLFacadeImplementation instance with DataAccess parameter");
 		ConfigXML c=ConfigXML.getInstance();
 		
-		if (c.getDataBaseOpenMode().equals(init)) {
+		if (c.getDataBaseOpenMode().equals(Init)) {
 			da.open(true);
 			da.initializeDB();			
 			da.close();
