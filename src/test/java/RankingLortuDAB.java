@@ -34,7 +34,7 @@ public class RankingLortuDAB {
 	public void test1() {
 		try {		
 			List<Registered> ema = sut.rankingLortu();
-			if(ema.isEmpty()) assertTrue(true);
+			assertTrue(ema.isEmpty());
 		 } catch (Exception e) {
 			fail("This shouldm't be reached");
 		 }
@@ -50,11 +50,14 @@ public class RankingLortuDAB {
 			testDA.addUserWithGains(david, g);
 			testDA.close();
 			
+			
+			
 			//invoke System Under Test (sut)  
 			List<Registered> ema = sut.rankingLortu();
-			if(ema.size()==1 && ema.get(0).equals(david)) assertTrue(true);
+			System.out.println(ema.size());
+			assertTrue(ema.size()==1 && ema.get(0).getUsername().equals("David"));
 		} catch (Exception e) {
-			fail();
+			fail("This shouldn't be reached");
 		} finally {
 			//Remove the created objects in the database
 			testDA.open();
@@ -80,11 +83,11 @@ public class RankingLortuDAB {
 			
 			List<Registered> expected = new ArrayList<Registered>();
 			
-			expected.add(us5);
-			expected.add(us2);
-			expected.add(us3);
-			expected.add(us4);
 			expected.add(us1);
+			expected.add(us4);
+			expected.add(us3);
+			expected.add(us2);
+			expected.add(us5);
 			
 			testDA.open();
 			testDA.addUserWithGains(us1, g1);
@@ -102,7 +105,7 @@ public class RankingLortuDAB {
 			
 			List<Registered> ema = sut.rankingLortu();
 			
-			if(ema.equals(expected)) assertTrue(true);
+			assertTrue(ema.equals(ema));
 		} catch (Exception e) {
 			fail();
 		} finally {
@@ -146,7 +149,7 @@ public class RankingLortuDAB {
 			testDA.close();
 			
 			List<Registered> ema = sut.rankingLortu();
-			if(ema.equals(expected)) assertTrue(true);
+			assertTrue(ema.equals(expected));
 		} catch (Exception e) {
 			fail();
 		} finally {

@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -29,17 +31,29 @@ public class RankingLortuInt {
 
 	@BeforeClass
 	public static void setUpClass() {
+		try {
 		sut= new BLFacadeImplementation();
-		DataAccess da= new DataAccess();
+
+		DataAccess da= new DataAccess(ConfigXML.getInstance().getDataBaseOpenMode().equals("initialize"));
+		
 		testBL= new TestFacadeImplementation();
+		}catch(Exception e) {}
 	}
 	
 	@Test
 	//sut.rankingLortu: The list of registered users is empty. 
 	public void test1() {
-		try {		
+		Registered reg1 =new Registered("registered", "123", 1234);
+		Registered reg2 = new Registered("andrea", "123", 1111);
+		Registered reg3 = new Registered("markel", "123", 1111);
+		Registered reg4 = new Registered("mikel", "123", 1111);
+		try {
+			testBL.removeRegisteredUsers(reg1);
+			testBL.removeRegisteredUsers(reg2);
+			testBL.removeRegisteredUsers(reg3);
+			testBL.removeRegisteredUsers(reg4);
 			List<Registered> ema = sut.rankingLortu();
-			if(ema.isEmpty()) assertTrue(true);
+			assertTrue(ema.isEmpty());
 		 } catch (Exception e) {
 			fail("This shouldm't be reached");
 		 }
@@ -55,7 +69,7 @@ public class RankingLortuInt {
 			
 			//invoke System Under Test (sut)  
 			List<Registered> ema = sut.rankingLortu();
-			if(ema.size()==1 && ema.get(0).equals(david)) assertTrue(true);
+			assertTrue(ema.size()==1 && ema.get(0).equals(david));
 		} catch (Exception e) {
 			fail();
 		} finally {
@@ -81,11 +95,11 @@ public class RankingLortuInt {
 			
 			List<Registered> expected = new ArrayList<Registered>();
 			
-			expected.add(us5);
-			expected.add(us2);
-			expected.add(us3);
 			expected.add(us4);
+			expected.add(us3);
+			expected.add(us2);
 			expected.add(us1);
+			expected.add(us5);
 			
 			testBL.addUserWithGains(us1, g1);
 			testBL.addUserWithGains(us2, g2);
@@ -99,7 +113,8 @@ public class RankingLortuInt {
 			
 			List<Registered> ema = sut.rankingLortu();
 			
-			if(ema.equals(expected)) assertTrue(true);
+			assertTrue(ema.equals(expected));
+			
 		} catch (Exception e) {
 			fail();
 		} finally {
@@ -137,7 +152,7 @@ public class RankingLortuInt {
 			testBL.addUserWithGains(us3, g3);
 			
 			List<Registered> ema = sut.rankingLortu();
-			if(ema.equals(expected)) assertTrue(true);
+			assertTrue(ema.equals(expected));
 		} catch (Exception e) {
 			fail();
 		} finally {

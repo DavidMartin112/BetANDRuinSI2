@@ -30,7 +30,7 @@ public class RankingLortuMockInt {
 			Mockito.doReturn(new ArrayList<Registered>()).when(da).rankingLortu();
 			List<Registered> ema = sut.rankingLortu();
 			Mockito.verify(da,Mockito.times(1)).rankingLortu();
-			if(ema.isEmpty()) assertTrue(true);
+			assertTrue(ema.isEmpty());
 		 } catch (Exception e) {
 			fail("This shouldm't be reached");
 		 }
@@ -47,7 +47,7 @@ public class RankingLortuMockInt {
 			Mockito.doReturn(expected).when(da).rankingLortu();
 			List<Registered> ema = sut.rankingLortu();
 			Mockito.verify(da,Mockito.times(1)).rankingLortu();
-			if(ema.size()==1 && ema.get(0).equals(david)) assertTrue(true);
+			assertTrue(ema.size()==1 && ema.get(0).equals(david));
 		} catch (Exception e) {
 			fail();
 		}
@@ -92,7 +92,7 @@ public class RankingLortuMockInt {
 			
 			List<Registered> ema = sut.rankingLortu();
 			Mockito.verify(da,Mockito.times(2)).rankingLortu();
-			if(ema.equals(expected)) assertTrue(true);
+			assertTrue(ema.equals(expected));
 		} catch (Exception e) {
 			fail();
 		}
@@ -127,7 +127,7 @@ public class RankingLortuMockInt {
 			
 			List<Registered> ema = sut.rankingLortu();
 			Mockito.verify(da,Mockito.times(2)).rankingLortu();
-			if(ema.equals(expected)) assertTrue(true);
+			assertTrue(ema.equals(expected));
 		} catch (Exception e) {
 			fail();
 		}

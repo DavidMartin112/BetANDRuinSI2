@@ -42,23 +42,20 @@ public class RankingLortuDAW {
 			
 			
 			//invoke System Under Test (sut)  
-			sut.rankingLortu();
-			
-			
-			//if the program continues fail
-		    fail();
+			List<Registered> ema = sut.rankingLortu();
+			assertTrue(ema.isEmpty());
 		 } catch (Exception e) {
-			   assertTrue(true);
+			   fail();
 		 }
 	}
 	@Test
 	//sut.rankingLortu:  There is a registered user
 	public void test2() {
+		Registered david = new Registered("David", "1234", 5678);
 		try {		
-			Registered david = new Registered("David", "1234", 5678);
 			//configure the state of the system (create object in the dabatase)
 			testDA.open();
-			//ev = testDA.addUserWithGains(david, 15);
+			testDA.addUserWithGains(david, (double)15);
 			testDA.close();
 
 
@@ -71,7 +68,7 @@ public class RankingLortuDAW {
 		} finally {
 			//Remove the created objects in the database
 			testDA.open();
-			//	testDA.removeRegisteredUsers();
+			testDA.removeRegisteredUsers(david);
 			testDA.close();
 		}
 	}
@@ -79,31 +76,30 @@ public class RankingLortuDAW {
 	@Test
 	//sut.rankingLortu:  There is a list of registered users and a ranking with 4 users. Add new user on top gains
 	public void test3() {
+		Registered us1 = new Registered("Pepe", "1234", 5678);
+		Registered us2 = new Registered("Manuel", "1234", 1111);
+		Registered us3 = new Registered("Pedro", "1234", 2222);
+		Registered us4 = new Registered("Pepito", "1234", 3333);
+		Registered us5 = new Registered("Andoni", "1234", 4444);
 		try {		
-			Registered us1 = new Registered("David", "1234", 5678);
-			Registered us2 = new Registered("Manuel", "1234", 1111);
-			Registered us3 = new Registered("Pedro", "1234", 2222);
-			Registered us4 = new Registered("Pepito", "1234", 3333);
-			Registered us5 = new Registered("Andoni", "1234", 4444);
-			
 			List<Registered> expected = new ArrayList<Registered>();
-			expected.add(us1);
+			expected.add(us5);
+			expected.add(us4);
 			expected.add(us2);
 			expected.add(us3);
-			expected.add(us4);
-			expected.add(us5);
+			expected.add(us1);
 			testDA.open();
-			//testDA.addUserWithGains(us1, 10);
-			//testDA.addUserWithGains(us2, 13);
-			//testDA.addUserWithGains(us3, 12);
-			//testDA.addUserWithGains(us4, 11);
-			//testDA.close();
+			testDA.addUserWithGains(us1, (double)10);
+			testDA.addUserWithGains(us2, (double)13);
+			testDA.addUserWithGains(us3, (double)12);
+			testDA.addUserWithGains(us4, (double)14);
+			testDA.close();
 
 			//invoke System Under Test (sut)  
-			sut.rankingLortu();
+			List<Registered> em1a = sut.rankingLortu();
 			
 			testDA.open();
-			//testDA.addUserWithGains(us5, 16);
+			testDA.addUserWithGains(us5, (double)16);
 			testDA.close();
 			
 			List<Registered> ema = sut.rankingLortu();
@@ -114,7 +110,11 @@ public class RankingLortuDAW {
 		} finally {
 			//Remove the created objects in the database
 			testDA.open();
-			//	testDA.removeRegisteredUsers();
+			testDA.removeRegisteredUsers(us1);
+			testDA.removeRegisteredUsers(us2);
+			testDA.removeRegisteredUsers(us3);
+			testDA.removeRegisteredUsers(us4);
+			testDA.removeRegisteredUsers(us5);
 			testDA.close();
 		}
 	}
@@ -122,26 +122,25 @@ public class RankingLortuDAW {
 	@Test
 	//sut.rankingLortu:  There is a list of registered users and a ranking with 4 users. Add new user on mid ranking.
 	public void test4() {
-		try {		
-			Registered us1 = new Registered("David", "1234", 5678);
-			Registered us2 = new Registered("Manuel", "1234", 1111);
-			Registered us3 = new Registered("Pedro", "1234", 2222);
-			
+		Registered us1 = new Registered("Ane", "1234", 5678);
+		Registered us2 = new Registered("Ana", "1234", 1111);
+		Registered us3 = new Registered("Ander", "1234", 2222);
+		try {	
 			List<Registered> expected = new ArrayList<Registered>();
 			expected.add(us1);
-			expected.add(us2);
 			expected.add(us3);
+			expected.add(us2);
 			
 			testDA.open();
-			//testDA.addUserWithGains(us1, 24);
-			//testDA.addUserWithGains(us2, 13);
+			testDA.addUserWithGains(us1, (double)24);
+			testDA.addUserWithGains(us2, (double)13);
 			testDA.close();
 
 			//invoke System Under Test (sut)  
 			sut.rankingLortu();
 			
 			testDA.open();
-			//testDA.addUserWithGains(us3, 16);
+			testDA.addUserWithGains(us3, (double)16);
 			testDA.close();
 			
 			List<Registered> ema = sut.rankingLortu();
@@ -152,7 +151,9 @@ public class RankingLortuDAW {
 		} finally {
 			//Remove the created objects in the database
 			testDA.open();
-			//	testDA.removeRegisteredUsers();
+			testDA.removeRegisteredUsers(us1);
+			testDA.removeRegisteredUsers(us2);
+			testDA.removeRegisteredUsers(us3);
 			testDA.close();
 		}
 	}
