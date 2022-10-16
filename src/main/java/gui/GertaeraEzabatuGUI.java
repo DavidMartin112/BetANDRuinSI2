@@ -33,6 +33,8 @@ import javax.swing.SwingConstants;
 
 public class GertaeraEzabatuGUI extends JFrame{
 
+	private static final String ETIQUETAS = "Etiquetas";
+
 	private static final long serialVersionUID = 1L;
 
 	private BLFacade businessLogic = MainGUI.getBusinessLogic();
@@ -40,14 +42,14 @@ public class GertaeraEzabatuGUI extends JFrame{
 	private JComboBox<Event> jComboBoxEvents = new JComboBox<Event>();
 	DefaultComboBoxModel<Event> modelEvents = new DefaultComboBoxModel<Event>();
 
-	private JLabel jLabelListOfEvents = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("ListEvents"));
-	private JLabel jLabelEventDate = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("EventDate"));
+	private JLabel jLabelListOfEvents = new JLabel(ResourceBundle.getBundle(ETIQUETAS).getString("ListEvents"));
+	private JLabel jLabelEventDate = new JLabel(ResourceBundle.getBundle(ETIQUETAS).getString("EventDate"));
 	private JCalendar jCalendar = new JCalendar();
 	private Calendar calendarAct = null;
 	private Calendar calendarAnt = null;
 
 	private JScrollPane scrollPaneEvents = new JScrollPane();
-	private JButton jButtonClose = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Close"));
+	private JButton jButtonClose = new JButton(ResourceBundle.getBundle(ETIQUETAS).getString("Close"));
 	private JLabel jLabelMsg = new JLabel();
 	
 	private ArrayList<Date> datesWithEventsCurrentMonth = new ArrayList<Date>();
@@ -74,7 +76,7 @@ public class GertaeraEzabatuGUI extends JFrame{
 		
 		this.getContentPane().setLayout(null);
 		this.setSize(new Dimension(604, 370));
-		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("GertaerakEzabatu"));
+		this.setTitle(ResourceBundle.getBundle(ETIQUETAS).getString("GertaerakEzabatu"));
 
 		jComboBoxEvents.setModel(modelEvents);
 		jComboBoxEvents.setBounds(new Rectangle(275, 47, 250, 20));
@@ -124,10 +126,10 @@ public class GertaeraEzabatuGUI extends JFrame{
 				
 				if(b==false) {
 					jLabelErrorea.setVisible(true);
-					jLabelErrorea.setText(ResourceBundle.getBundle("Etiquetas").getString("GertaeraEzabError"));
+					jLabelErrorea.setText(ResourceBundle.getBundle(ETIQUETAS).getString("GertaeraEzabError"));
 				}else {
 					jLabelErrorea.setVisible(true);
-					jLabelErrorea.setText(ResourceBundle.getBundle("Etiquetas").getString("GertaeraEzabCorrect")); 
+					jLabelErrorea.setText(ResourceBundle.getBundle(ETIQUETAS).getString("GertaeraEzabCorrect")); 
 				}
 				
 				if(modelEvents.getSize()==0) {
@@ -137,7 +139,7 @@ public class GertaeraEzabatuGUI extends JFrame{
 				}
 			}
 		});
-		jButtonEzabatu.setText(ResourceBundle.getBundle("Etiquetas").getString("Ezabatu")); //$NON-NLS-1$ //$NON-NLS-2$
+		jButtonEzabatu.setText(ResourceBundle.getBundle(ETIQUETAS).getString("Ezabatu")); //$NON-NLS-1$ //$NON-NLS-2$
 		jButtonEzabatu.setBounds(145, 240, 120, 30);
 		getContentPane().add(jButtonEzabatu);
 
@@ -187,10 +189,10 @@ public class GertaeraEzabatuGUI extends JFrame{
 						ArrayList<domain.Event> events = facade.getEvents(firstDay);
 
 						if (events.isEmpty())
-							jLabelListOfEvents.setText(ResourceBundle.getBundle("Etiquetas").getString("NoEvents")
+							jLabelListOfEvents.setText(ResourceBundle.getBundle(ETIQUETAS).getString("NoEvents")
 									+ ": " + dateformat1.format(calendarAct.getTime()));
 						else
-							jLabelListOfEvents.setText(ResourceBundle.getBundle("Etiquetas").getString("Events") + ": "
+							jLabelListOfEvents.setText(ResourceBundle.getBundle(ETIQUETAS).getString("Events") + ": "
 									+ dateformat1.format(calendarAct.getTime()));
 						jComboBoxEvents.removeAllItems();
 						System.out.println("Events " + events);
