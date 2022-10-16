@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import configuration.ConfigXML;
+import configuration.ServerConfig;
 
 import javax.swing.JTextArea;
 import javax.xml.ws.Endpoint;
@@ -37,6 +38,7 @@ public class BusinessLogicServer extends JDialog {
 	BLFacade server;
 	String service;
 	ConfigXML c;
+	ServerConfig sc = new ServerConfig();
 	public static void main(String[] args) {
 		try {
 			BusinessLogicServer dialog = new BusinessLogicServer();
@@ -46,28 +48,7 @@ public class BusinessLogicServer extends JDialog {
 			e.printStackTrace();
 		}
 	}
-
-	private void configureContentPane() {
-		setTitle("BusinessLogicServer: running the business logic");
-		setBounds(100, 100, 486, 209);
-		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(new BorderLayout(0, 0));
-		
-		configureTextArea();
-	}
-	private void configureTextArea() {
-
-		textArea = new JTextArea();
-		contentPanel.add(textArea);
-	}
-	private JPanel configureJPanel() {
-		JPanel buttonPane = new JPanel();
-		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		getContentPane().add(buttonPane, BorderLayout.SOUTH);
-		return buttonPane;
-	}
+	
 	private void publishTry() {
 		try{
 			
@@ -88,7 +69,7 @@ public class BusinessLogicServer extends JDialog {
 			throw e;
 		}
 	}
-	
+
 	
 	public BusinessLogicServer() {
 		addWindowListener(new WindowAdapter() {
@@ -98,8 +79,10 @@ public class BusinessLogicServer extends JDialog {
 			}
 		});
 		
-		configureContentPane();
-		JPanel buttonPane=configureJPanel();
+		
+		sc.configureContentPane(contentPanel,true);
+		sc.configureTextArea(contentPanel, textArea);
+		JPanel buttonPane=sc.configureJPanel();
 			
 		JButton okButton = new JButton("OK");
 		okButton.addActionListener(new ActionListener() {

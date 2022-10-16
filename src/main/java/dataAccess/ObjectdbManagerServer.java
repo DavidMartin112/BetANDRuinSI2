@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import configuration.ConfigXML;
+import configuration.ServerConfig;
 
 import javax.swing.JTextArea;
 
@@ -34,7 +35,7 @@ public class ObjectdbManagerServer extends JDialog {
     //For mac 
     //private String objectDbpath="src//main//resources//objectdb.jar";
 
- 	
+    ServerConfig sc = new ServerConfig();
 
 
 	public static void main(String[] args) {
@@ -51,54 +52,39 @@ public class ObjectdbManagerServer extends JDialog {
 
 
 	public ObjectdbManagerServer() {
-	    
-		setTitle("objectDBManagerServer: running the database server");
-		setBounds(100, 100, 486, 180);
-		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(new BorderLayout(0, 0));
-		{
-			textArea = new JTextArea();
-			contentPanel.add(textArea);
-		}
-		{
-			JPanel buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-			{
-				JButton okButton = new JButton("OK");
-				okButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						textArea.append("\n\n\nClosing the database... ");
-					    try {
-					    	System.out.println("Server close");
-					    	 try {
-					    		    
-					    		    
-							    	Runtime.getRuntime().exec("java -cp "+objectDbpath+" com.objectdb.Server -port "+ c.getDatabasePort()+" stop");
+	    sc.configureContentPane(contentPanel, false);
+		sc.configureTextArea(contentPanel, textArea);
+		JPanel buttonPane=sc.configureJPanel();
+		
+		JButton okButton = new JButton("OK");
+		okButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textArea.append("\n\n\nClosing the database... ");
+				try {
+					System.out.println("Server close");
+					try {
+						Runtime.getRuntime().exec("java -cp "+objectDbpath+" com.objectdb.Server -port "+ c.getDatabasePort()+" stop");
 							    	
-							    } catch (Exception ioe) {
-							    	System.out.println (ioe);
-							    }
+				    } catch (Exception ioe) {
+				    	System.out.println (ioe);
+				    }
 
-								System.exit(1);
-							
-						} catch (Exception e1) {
-						}
-						System.exit(1);
-					}
-				});
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
+				System.exit(1);
+				} catch (Exception e1) {
+				}
+				System.exit(1);
 			}
-			{
-				JButton cancelButton = new JButton("Cancel");
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
-			}
-		}
+		});
+		okButton.setActionCommand("OK");
+		buttonPane.add(okButton);
+		getRootPane().setDefaultButton(okButton);
+			
+			
+		JButton cancelButton = new JButton("Cancel");
+		cancelButton.setActionCommand("Cancel");
+		buttonPane.add(cancelButton);
+			
+		
 		
 		ConfigXML c=ConfigXML.getInstance();
 		
