@@ -889,20 +889,22 @@ public void open(boolean initializeMode){
 		Sport spo =db.find(Sport.class, sport);
 		if(spo!=null) {
 			b = isEventInDB(description, eventDate, b);
-			if(b) {
-				String[] taldeak = description.split("-");
-				Team lokala = new Team(taldeak[0]);
-				Team kanpokoa = new Team(taldeak[1]);
-				Event e = new Event(description, eventDate, lokala, kanpokoa);
-				e.setSport(spo);
-				spo.addEvent(e);
-				db.persist(e);
-			}
+			if(b) extractedForGertaerakSortu(description, eventDate, spo);
 		}else {
 			return false;
 		}
 		db.getTransaction().commit();
 		return b;
+	}
+
+	private void extractedForGertaerakSortu(String description, Date eventDate, Sport spo) {
+		String[] taldeak = description.split("-");
+		Team lokala = new Team(taldeak[0]);
+		Team kanpokoa = new Team(taldeak[1]);
+		Event e = new Event(description, eventDate, lokala, kanpokoa);
+		e.setSport(spo);
+		spo.addEvent(e);
+		db.persist(e);
 	}
 
 	private boolean isEventInDB(String description, Date eventDate, boolean b) {
@@ -1136,6 +1138,19 @@ public void open(boolean initializeMode){
 		Question que = q.getQuestion(); 
 		Question question = db.find(Question.class, que); 
 		question.setResult(result);
+		extractedForEmaitzakIpini(question);
+		db.getTransaction().commit();
+		for(Apustua a : listApustuak) {
+			db.getTransaction().begin();
+			Boolean bool=a.getApustuAnitza().irabazitaMarkatu();
+			db.getTransaction().commit();
+			if(bool) {
+				this.ApustuaIrabazi(a.getApustuAnitza());
+			}
+		}
+	}
+
+	private void extractedForEmaitzakIpini(Question question) {
 		for(Quote quo: question.getQuotes()) {
 			for(Apustua apu: quo.getApustuak()) {
 				
@@ -1145,15 +1160,6 @@ public void open(boolean initializeMode){
 				}else {
 					apu.setEgoera("irabazita");
 				}
-			}
-		}
-		db.getTransaction().commit();
-		for(Apustua a : listApustuak) {
-			db.getTransaction().begin();
-			Boolean bool=a.getApustuAnitza().irabazitaMarkatu();
-			db.getTransaction().commit();
-			if(bool) {
-				this.ApustuaIrabazi(a.getApustuAnitza());
 			}
 		}
 	}
