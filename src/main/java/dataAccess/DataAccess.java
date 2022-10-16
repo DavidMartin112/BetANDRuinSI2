@@ -1210,7 +1210,7 @@ public void open(boolean initializeMode){
 		return lista;
 	}
 	
-	public boolean mezuaBidali(User igorlea, String hartzailea, String titulo, String test, Elkarrizketa elkarrizketa) {
+	public boolean mezuaBidali(User igorlea, String hartzailea, String test, Elkarrizketa elkarrizketa) {
 		User igorle = db.find(User.class, igorlea.getUsername());
 		User hartzaile = db.find(User.class, hartzailea);
 		Elkarrizketa elk=null;
@@ -1223,7 +1223,7 @@ public void open(boolean initializeMode){
 			if(elkarrizketa!=null) {
 				elk = db.find(Elkarrizketa.class, elkarrizketa.getElkarrizketaNumber());
 			}else {
-				elk= new Elkarrizketa(titulo, igorle, hartzaile);
+				elk= new Elkarrizketa(elkarrizketa.getTitulo(), igorle, hartzaile);
 				db.persist(elk);
 				m.setElkarrizketa(elk);
 				igorle.addElkarrizketak(elk);

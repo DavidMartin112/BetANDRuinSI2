@@ -273,9 +273,9 @@ public class BLFacadeImplementation  implements BLFacade {
     }
 	
 	@WebMethod
-	public boolean mezuaBidali(User igorle, String hartzailea, String titulo, String test, Elkarrizketa m) {
+	public boolean mezuaBidali(User igorle, String hartzailea, String test, Elkarrizketa m) {
 		dbManager.open(false);
-		Boolean ema = dbManager.mezuaBidali(igorle, hartzailea, titulo, test, m);
+		Boolean ema = dbManager.mezuaBidali(igorle, hartzailea, test, m);
 		dbManager.close();
 		return ema;
 	}

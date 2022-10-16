@@ -112,7 +112,7 @@ public class MezuakBidaliGUI extends JFrame{
 		btnEnviar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(!user.getUsername().equals(txtHartzailea.getText())) {
-					Boolean ema= businessLogic.mezuaBidali(user, txtHartzailea.getText(), txtAsunto.getText(), txtTestua.getText(), elkarrizketa);
+					Boolean ema= businessLogic.mezuaBidali(user, txtHartzailea.getText(), txtTestua.getText(), elkarrizketa);
 					if(ema) {
 						thisw.setVisible(false);
 						JFrame a = new SarreraOntziaGUI(user);
