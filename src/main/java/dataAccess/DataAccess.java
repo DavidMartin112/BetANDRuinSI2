@@ -992,13 +992,7 @@ public void open(boolean initializeMode){
 			db.getTransaction().begin();
 			ApustuAnitza apustuAnitza = new ApustuAnitza(user, balioa);
 			db.persist(apustuAnitza);
-			for(Quote quo: quote) {
-				Quote kuote = db.find(Quote.class, quo.getQuoteNumber());
-				Apustua ap = new Apustua(apustuAnitza, kuote);
-				db.persist(ap);
-				apustuAnitza.addApustua(ap);
-				kuote.addApustua(ap);
-			}
+			extractedForQuoteApustuaEgin(quote, apustuAnitza);
 			db.getTransaction().commit();
 			db.getTransaction().begin();
 			if(apustuBikoitzaGalarazi==-1) {
@@ -1008,45 +1002,65 @@ public void open(boolean initializeMode){
 			user.updateDiruKontua(-balioa);
 			Transaction t = new Transaction(user, balioa, new Date(), "ApustuaEgin"); 
 			user.addApustuAnitza(apustuAnitza);
-			for(Apustua a: apustuAnitza.getApustuak()) {
-				Apustua apu = db.find(Apustua.class, a.getApostuaNumber());
-				Quote q = db.find(Quote.class, apu.getKuota().getQuoteNumber());
-				Sport spo =q.getQuestion().getEvent().getSport();
-				spo.setApustuKantitatea(spo.getApustuKantitatea()+1);
-				if(!user.containsKirola(spo)) {
-					KirolEstatistikak ke=new KirolEstatistikak(user, spo);
-					ke.setKont(1);
-					user.addKirolEstatistikak(ke);
-					spo.addKirolEstatistikak(ke);
-				}else {
-					KirolEstatistikak ke=user.kirolEstatistikakLortu(spo);
-					ke.eguneratuKont(1);
-				}
-			}
+			extractedForApustuaApustuaEgin(user, apustuAnitza);
 			user.addTransaction(t);
 			db.persist(t);
 			db.getTransaction().commit();
-			for(Jarraitzailea reg:user.getJarraitzaileLista()) {
-				Jarraitzailea erab=db.find(Jarraitzailea.class, reg.getJarraitzaileaNumber());
-				b=true;
-				for(ApustuAnitza apu: erab.getNork().getApustuAnitzak()) {
-					if(apu.getApustuKopia().equals(apustuAnitza.getApustuKopia())) {
-						b=false;
-					}
-				}
-				if(b) {
-					if(erab.getNork().getDiruLimitea()<balioa) {
-						this.ApustuaEgin(erab.getNork(), quote, erab.getNork().getDiruLimitea(), apustuBikoitzaGalarazi);
-					}else{
-						this.ApustuaEgin(erab.getNork(), quote, balioa, apustuBikoitzaGalarazi);
-					}
-				}
-			}
+			extractedForJarraitzaileaApustuaEgin(quote, balioa, apustuBikoitzaGalarazi, user, apustuAnitza);
 			return true; 
 		}else{
 			return false; 
 		}
 		
+	}
+
+	private void extractedForJarraitzaileaApustuaEgin(Vector<Quote> quote, Double balioa,
+			Integer apustuBikoitzaGalarazi, Registered user, ApustuAnitza apustuAnitza) {
+		Boolean b;
+		for(Jarraitzailea reg:user.getJarraitzaileLista()) {
+			Jarraitzailea erab=db.find(Jarraitzailea.class, reg.getJarraitzaileaNumber());
+			b=true;
+			for(ApustuAnitza apu: erab.getNork().getApustuAnitzak()) {
+				if(apu.getApustuKopia().equals(apustuAnitza.getApustuKopia())) {
+					b=false;
+				}
+			}
+			if(b) {
+				if(erab.getNork().getDiruLimitea()<balioa) {
+					this.ApustuaEgin(erab.getNork(), quote, erab.getNork().getDiruLimitea(), apustuBikoitzaGalarazi);
+				}else{
+					this.ApustuaEgin(erab.getNork(), quote, balioa, apustuBikoitzaGalarazi);
+				}
+			}
+		}
+	}
+
+	private void extractedForApustuaApustuaEgin(Registered user, ApustuAnitza apustuAnitza) {
+		for(Apustua a: apustuAnitza.getApustuak()) {
+			Apustua apu = db.find(Apustua.class, a.getApostuaNumber());
+			Quote q = db.find(Quote.class, apu.getKuota().getQuoteNumber());
+			Sport spo =q.getQuestion().getEvent().getSport();
+			spo.setApustuKantitatea(spo.getApustuKantitatea()+1);
+			if(!user.containsKirola(spo)) {
+				KirolEstatistikak ke=new KirolEstatistikak(user, spo);
+				ke.setKont(1);
+				user.addKirolEstatistikak(ke);
+				spo.addKirolEstatistikak(ke);
+			}else {
+				KirolEstatistikak ke=user.kirolEstatistikakLortu(spo);
+				ke.eguneratuKont(1);
+			}
+		}
+	}
+
+	private void extractedForQuoteApustuaEgin(Vector<Quote> quote, ApustuAnitza apustuAnitza) {
+		for(Quote quo: quote) {
+			Quote kuote = db.find(Quote.class, quo.getQuoteNumber());
+			Apustua ap = new Apustua(apustuAnitza, kuote);
+			db.persist(ap);
+			apustuAnitza.addApustua(ap);
+			kuote.addApustua(ap);
+		}
 	}
 	
 	public void apustuaEzabatu(User user1, ApustuAnitza ap) {
