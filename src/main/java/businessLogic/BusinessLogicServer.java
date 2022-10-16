@@ -36,7 +36,7 @@ public class BusinessLogicServer extends JDialog {
 	JTextArea textArea;
 	BLFacade server;
 	String service;
-
+	ConfigXML c;
 	public static void main(String[] args) {
 		try {
 			BusinessLogicServer dialog = new BusinessLogicServer();
@@ -68,6 +68,28 @@ public class BusinessLogicServer extends JDialog {
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
 		return buttonPane;
 	}
+	private void publishTry() {
+		try{
+			
+			if (!c.isDatabaseLocal()) {
+				System.out.println("\nWARNING: Please be sure ObjectdbManagerServer is launched\n           in machine: "+c.getDatabaseNode()+" port: "+c.getDatabasePort()+"\n");	
+			}
+			
+			service= "http://"+c.getBusinessLogicNode() +":"+ c.getBusinessLogicPort()+"/ws/"+c.getBusinessLogicName();
+			
+			Endpoint.publish(service, new BLFacadeImplementation());
+			
+			
+		}
+		catch (Exception e) {
+			System.out.println("Error in BusinessLogicServer: "+e.toString());
+			textArea.append("\nYou should have not launched DBManagerServer...\n");
+			textArea.append("\n\nOr maybe there is a BusinessLogicServer already launched...\n");
+			throw e;
+		}
+	}
+	
+	
 	public BusinessLogicServer() {
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -97,7 +119,7 @@ public class BusinessLogicServer extends JDialog {
 		
 		
 		
-		ConfigXML c=ConfigXML.getInstance();
+		c=ConfigXML.getInstance();
 
 		if (c.isBusinessLogicLocal()) {
 			textArea.append("\nERROR, the business logic is configured as local");
@@ -105,24 +127,7 @@ public class BusinessLogicServer extends JDialog {
 		else {
 		try {
 
-			try{
-				
-				if (!c.isDatabaseLocal()) {
-					System.out.println("\nWARNING: Please be sure ObjectdbManagerServer is launched\n           in machine: "+c.getDatabaseNode()+" port: "+c.getDatabasePort()+"\n");	
-				}
-				
-				service= "http://"+c.getBusinessLogicNode() +":"+ c.getBusinessLogicPort()+"/ws/"+c.getBusinessLogicName();
-				
-				Endpoint.publish(service, new BLFacadeImplementation());
-				
-				
-			}
-			catch (Exception e) {
-				System.out.println("Error in BusinessLogicServer: "+e.toString());
-				textArea.append("\nYou should have not launched DBManagerServer...\n");
-				textArea.append("\n\nOr maybe there is a BusinessLogicServer already launched...\n");
-				throw e;
-			}
+			publishTry();
 			
 			textArea.append("Running service at:\n\t" + service);
 			textArea.append("\n\n\nPress button to exit this server... ");
