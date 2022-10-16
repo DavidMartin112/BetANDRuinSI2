@@ -36,7 +36,9 @@ import domain.Question;
 import domain.Quote;
 import domain.User;
 import java.awt.Font;
-
+/**
+ *	ApustuaEgin interfazea
+ */
 public class ApustuaEginGUI extends JFrame{
 
 	private BLFacade businessLogic = MainGUI.getBusinessLogic();
