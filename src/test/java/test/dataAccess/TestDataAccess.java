@@ -147,7 +147,7 @@ public class TestDataAccess {
 				db.remove(r);
 				db.getTransaction().commit();
 			}catch(Exception e) {
-				e.printStackTrace();
+				System.out.println("Already removed");
 			}
 		}
 }
