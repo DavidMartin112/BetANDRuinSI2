@@ -22,8 +22,7 @@ import test.businessLogic.TestFacadeImplementation;
 import test.dataAccess.TestDataAccess;
 
 public class RankingLortuDAB {
-//Demo
-	/*
+
 	 //sut:system under test
 	 static DataAccess sut=new DataAccess();
 	 
@@ -161,5 +160,5 @@ public class RankingLortuDAB {
 			testDA.removeRegisteredUsers(us3);
 			testDA.close();
 		}
-	}*/
+	}
 }

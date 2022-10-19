@@ -26,7 +26,7 @@ import test.businessLogic.TestFacadeImplementation;
 import test.dataAccess.TestDataAccess;
 
 public class RankingLortuInt {
-	/*static BLFacadeImplementation sut;
+	static BLFacadeImplementation sut;
 	static TestFacadeImplementation testBL;
 
 	@BeforeClass
@@ -161,5 +161,5 @@ public class RankingLortuInt {
 			testBL.removeRegisteredUsers(us2);
 			testBL.removeRegisteredUsers(us3);
 		}
-	}*/
+	}
 }
