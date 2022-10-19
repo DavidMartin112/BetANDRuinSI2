@@ -158,8 +158,8 @@ public class GertaerakKopiatuMockInt {
 				//configure Mock
 				Mockito.doReturn(oneDate).when(mockedEvent).getEventDate();
 				Mockito.doReturn(mockedEvent).when(mockedQuestion).getEvent();
-				//Mockito.doReturn(true).when(dataAccess).gertaerakKopiatu(Mockito.any(Event.class), Mockito.any(Date.class));
-				Mockito.doReturn(false).when(dataAccess).gertaerakKopiatu(Mockito.any(Event.class), oneDate);
+				Mockito.doReturn(true).when(dataAccess).gertaerakKopiatu(Mockito.any(Event.class), Mockito.any(Date.class));
+				//Mockito.doReturn(false).when(dataAccess).gertaerakKopiatu(Mockito.any(Event.class), oneDate);
 				Mockito.doReturn(new Vector<Question>()).when(mockedEvent).getQuestions();
 
 				//invoke System Under Test (sut) 
