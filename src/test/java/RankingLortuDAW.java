@@ -1,3 +1,4 @@
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -20,10 +21,8 @@ import exceptions.EventFinished;
 import exceptions.QuestionAlreadyExist;
 import test.businessLogic.TestFacadeImplementation;
 import test.dataAccess.TestDataAccess;
-
 public class RankingLortuDAW {
-
-	 //sut:system under test
+	/* //sut:system under test
 	 static DataAccess sut=new DataAccess();
 	 
 	 //additional operations needed to execute the test 
@@ -156,5 +155,5 @@ public class RankingLortuDAW {
 			testDA.removeRegisteredUsers(us3);
 			testDA.close();
 		}
-	}
+	}*/
 }
