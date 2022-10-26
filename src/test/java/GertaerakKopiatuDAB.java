@@ -16,7 +16,7 @@ import exceptions.QuestionAlreadyExist;
 import test.dataAccess.TestDataAccess;
 
 public class GertaerakKopiatuDAB {
-
+//asdad
 	 //sut:system under test
 	 static DataAccess sut=new DataAccess();
 	 
