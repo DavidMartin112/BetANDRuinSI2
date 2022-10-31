@@ -16,7 +16,7 @@ import domain.Sport;
 import exceptions.QuestionAlreadyExist;
 import test.dataAccess.TestDataAccess;
 
-public class GertaerakKopiatuDAB2 {
+public class GertaerakKopiatuDAB2Test {
 //asdad
 	 //sut:system under test
 	 static DataAccessGertaerakKopiatu sut=new DataAccessGertaerakKopiatu();
