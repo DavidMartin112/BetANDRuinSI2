@@ -18,7 +18,7 @@ import dataAccess.DataAccessGertaerakSortu;
 import domain.Sport;
 import test.dataAccess.TestDataAccess;
 
-public class gertaeraSortuDABTest2 {
+public class gertaeraSortuDAB2Test {
 	 	//sut:system under test
 	 	static DataAccessGertaerakSortu sut=new DataAccessGertaerakSortu();
 	 
