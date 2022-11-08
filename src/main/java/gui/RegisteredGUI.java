@@ -52,7 +52,8 @@ public class RegisteredGUI extends JFrame {
 	private JFrame thisw;
 	private JButton btnNewButton;
 	private JButton btnRank;
-	private JButton btnDestacados;
+	//private JButton btnDestacados;
+	private JButton btnList;
 	
 	/**
 	 * This is the default constructor
@@ -111,7 +112,8 @@ public class RegisteredGUI extends JFrame {
 			jContentPane.add(getJButtonDesLogin());
 			jContentPane.add(getBtnNewButton());
 			jContentPane.add(getBtnRank());
-			jContentPane.add(getBtnDestacados());
+			//jContentPane.add(getBtnDestacados());
+			jContentPane.add(getBtnList());
 		}
 		return jContentPane;
 	}
@@ -275,21 +277,38 @@ public class RegisteredGUI extends JFrame {
 		}
 		return btnRank;
 	}
-	private JButton getBtnDestacados() {
-		if (btnDestacados == null) {
-			btnDestacados = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Destacados")); //$NON-NLS-1$ //$NON-NLS-2$
-			btnDestacados.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			btnDestacados.setForeground(Color.DARK_GRAY);
-			btnDestacados.setBackground(Color.PINK);
-			btnDestacados.addActionListener(new ActionListener() {
+//	private JButton getBtnDestacados() {
+//		if (btnDestacados == null) {
+//			btnDestacados = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Destacados")); //$NON-NLS-1$ //$NON-NLS-2$
+//			btnDestacados.setFont(new Font("Tahoma", Font.PLAIN, 16));
+//			btnDestacados.setForeground(Color.DARK_GRAY);
+//			btnDestacados.setBackground(Color.PINK);
+//			btnDestacados.addActionListener(new ActionListener() {
+//				public void actionPerformed(ActionEvent e) {
+//					JFrame a =new DestacadosGUI(user);
+//					a.setVisible(true);
+//				}
+//			});
+//			btnDestacados.setBounds(327, 391, 299, 68);
+//		}
+//		return btnDestacados;
+//	}
+	
+	private JButton getBtnList() {
+		if (btnList == null) {
+			btnList = new JButton("Table of "+user.getUsername()); //$NON-NLS-1$ //$NON-NLS-2$
+			btnList.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			btnList.setForeground(Color.DARK_GRAY);
+			btnList.setBackground(Color.PINK);
+			btnList.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					JFrame a =new DestacadosGUI(user);
+					JFrame a =new TableGUI(user.getUsername());
 					a.setVisible(true);
 				}
 			});
-			btnDestacados.setBounds(327, 391, 299, 68);
+			btnList.setBounds(327, 391, 299, 68);
 		}
-		return btnDestacados;
+		return btnList;
 	}
 } // @jve:decl-index=0:visual-constraint="0,0"
 
