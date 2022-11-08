@@ -14,6 +14,7 @@ import domain.Apustua;
 import domain.Elkarrizketa;
 import domain.ElkarrizketaContainer;
 import domain.Event;
+import domain.ExtendedIterator;
 import domain.Message;
 import domain.MezuakContainer;
 import domain.Question;
@@ -113,7 +114,7 @@ public interface BLFacade  {
 	
 	@WebMethod public List<Registered> rankingLortu();
 	
-	@WebMethod public List<Event> getEventsAll();
+	@WebMethod public ExtendedIterator<Event> getEventsAll();
 	
 	@WebMethod public void mezuaIkusita(Message m);
 	

@@ -17,6 +17,7 @@ import domain.Apustua;
 import domain.Elkarrizketa;
 import domain.ElkarrizketaContainer;
 import domain.Event;
+import domain.ExtendedIterator;
 import domain.Message;
 import domain.MezuakContainer;
 import domain.Question;
@@ -289,11 +290,11 @@ public class BLFacadeImplementation  implements BLFacade {
 	}
 	
 	@WebMethod
-	public List<Event> getEventsAll(){
+	public ExtendedIterator<Event> getEventsAll(){
 		dbManager.open(false);
 		List<Event> ev = dbManager.getEventsAll();
 		dbManager.close();
-		return ev;
+		return new ExtendedIterator<Event>((ArrayList<Event>)ev);
 	}
 	
 	@WebMethod public void mezuaIkusita(Message m) {
