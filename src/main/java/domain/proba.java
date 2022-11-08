@@ -14,7 +14,7 @@ public class proba {
 		try {
 			BLFacade facadeInterface;
 			facadeInterface = blf.createBLFacade(1);
-			ExtendedIterator<Event> i=new ExtendedIterator<Event>((ArrayList<Event>)facadeInterface.getEventsAll());
+			ExtendedIterator<Event> i=facadeInterface.getEventsAll();
 			Event ev;
 			System.out.println("Prueba");
 		 	i.goLast();
