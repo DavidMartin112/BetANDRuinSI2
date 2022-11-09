@@ -114,7 +114,7 @@ public interface BLFacade  {
 	
 	@WebMethod public List<Registered> rankingLortu();
 	
-	@WebMethod public ExtendedIterator<Event> getEventsAll();
+	@WebMethod public List<Event> getEventsAll();
 	
 	@WebMethod public void mezuaIkusita(Message m);
 	
@@ -143,4 +143,7 @@ public interface BLFacade  {
 	@WebMethod public Team findTeam(User u);
 	
 	@WebMethod public Sport findSport(Event q);
+
+
+	ExtendedIterator<Event> getEventsIterator();
 }

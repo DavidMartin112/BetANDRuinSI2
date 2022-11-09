@@ -290,13 +290,19 @@ public class BLFacadeImplementation  implements BLFacade {
 	}
 	
 	@WebMethod
-	public ExtendedIterator<Event> getEventsAll(){
+	public List<Event> getEventsAll(){
 		dbManager.open(false);
 		List<Event> ev = dbManager.getEventsAll();
 		dbManager.close();
-		return new ExtendedIterator<Event>((ArrayList<Event>)ev);
+		return ev;
 	}
-	
+	@WebMethod
+	public ExtendedIterator<Event> getEventsIterator(){
+		dbManager.open(false);
+		List<Event> ev = dbManager.getEventsAll();
+		dbManager.close();
+		return new ExtendedIterator<Event>(ev);
+	}
 	@WebMethod public void mezuaIkusita(Message m) {
 		dbManager.open(false);
 		dbManager.mezuaIkusita(m);
