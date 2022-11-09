@@ -16,16 +16,16 @@ public class TableGUI extends JFrame {
    private RegisteredModelAdapter tableModel;
    private JTable table;
    private Registered myList;
-   public TableGUI(String title) {
-      super(title);
-      setBounds(10,10,400,300);
+   public TableGUI(Registered user) {
+      super(user.getUsername());
+      setBounds(10,10,1000,600);
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      myList = new Registered();
+      myList = user;
       tableModel = new RegisteredModelAdapter(myList);
       table = new JTable(tableModel);
       //table.setAutoCreateRowSorter(true);
       JScrollPane scrollPane = new JScrollPane(table);
-      scrollPane.setPreferredSize(new Dimension(380,280));
+      scrollPane.setPreferredSize(new Dimension(600,280));
       JPanel panel = new JPanel();
       panel.add(scrollPane);
       add(panel,BorderLayout.CENTER);

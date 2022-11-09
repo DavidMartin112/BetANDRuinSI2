@@ -23,6 +23,7 @@ import javax.swing.SwingConstants;
 
 import businessLogic.BLFacade;
 import domain.Event;
+import domain.Registered;
 import domain.User;
 
 
@@ -302,7 +303,7 @@ public class RegisteredGUI extends JFrame {
 			btnList.setBackground(Color.PINK);
 			btnList.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					JFrame a =new TableGUI(user.getUsername());
+					JFrame a =new TableGUI((Registered)user);
 					a.setVisible(true);
 				}
 			});

@@ -1,26 +1,36 @@
 package domain;
 
+import java.util.ArrayList;
+
 import javax.swing.table.AbstractTableModel;
 
 public class RegisteredModelAdapter extends AbstractTableModel{
-
 	private Registered user;
-	private String[] colNames = new String[] {"Event", "Question", "Event Date", "Bet(€)"};
+	private String[] colNames = new String[] {"Event", "Event Date", "Question", "Bet(€)"};
+	private ArrayList<Apustua> allBets;
 	public RegisteredModelAdapter(Registered r) {
 		this.user=r;
-	}
+		allBets = new ArrayList<Apustua>();
+		for(ApustuAnitza a : user.getApustuAnitzak()) {
+			allBets.addAll(a.getApustuak());
+		}
+	}	
 	@Override
 	public Object getValueAt(int row, int col) {
 	      Object temp = null;
 	      if (col == 0) {
-	         temp = user.getTransakzioak().get(row).getMota();
+	         temp = allBets.get(row).getKuota().getQuestion().getEvent().getDescription();
 	      }
 	      else if (col == 1) {
-		     temp = user.getTransakzioak().get(row).getData();
+		     temp = allBets.get(row).getApustuAnitza().getData();
 	      }
 	      else if (col == 2) {
-			     temp = user.getTransakzioak().get(row).getDirua();
+		         temp = allBets.get(row).getKuota().getQuestion().getQuestion();
 	      }
+	      else if (col == 3) {
+		         temp = allBets.get(row).getApustuAnitza().getBalioa();
+	      }
+	      if(temp == null) temp = "Hutsa";
 	      return temp;
 	}
 	@Override
@@ -29,10 +39,10 @@ public class RegisteredModelAdapter extends AbstractTableModel{
 	}
 	@Override
 	public int getColumnCount() {
-		return 3;
+		return 4;
 	}
 	@Override
 	public int getRowCount() {
-		return user.getTransakzioak().size();
+		return allBets.size();
 	}
 }
